@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+.vite/
+*.tsbuildinfo
+
+# secrets
+.env
+.env.*
+!.env.example
+
+# editors / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# logs
+*.log
+logs/
+
+# coverage
+coverage/
+
+# AWS — never commit local profile/creds material
+.aws/

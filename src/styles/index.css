@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-feature-settings: "ss01", "cv11";
+}
+
+@layer components {
+  .pill {
+    @apply inline-flex h-5 items-center gap-1 rounded-full px-2 text-[11px] font-medium leading-none whitespace-nowrap;
+  }
+  .btn {
+    @apply inline-flex items-center gap-1.5 rounded-md border border-ink-200 bg-white px-3 py-1.5 text-sm font-medium text-ink-800 shadow-sm transition hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply inline-flex items-center gap-1.5 rounded-md bg-ink-900 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-ink-700 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-success {
+    @apply inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-danger {
+    @apply inline-flex items-center gap-1.5 rounded-md bg-red-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .input {
+    @apply w-full rounded-md border border-ink-200 bg-white px-3 py-1.5 text-sm text-ink-900 shadow-sm placeholder:text-ink-400 focus:border-ink-500 focus:outline-none focus:ring-1 focus:ring-ink-500;
+  }
+  .card {
+    @apply rounded-lg border border-ink-200 bg-white shadow-sm;
+  }
+  .table-th {
+    @apply sticky top-0 z-10 bg-ink-50/95 px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-wide text-ink-500 backdrop-blur;
+  }
+  .table-td {
+    @apply px-3 py-2 text-sm text-ink-800 align-top;
+  }
+  .kbd {
+    @apply rounded border border-ink-200 bg-ink-50 px-1 py-0.5 font-mono text-[10px] text-ink-600;
+  }
+  .mono {
+    @apply font-mono text-[12px];
+  }
+}
+
+::selection {
+  background-color: theme("colors.ink.900");
+  color: white;
+}
+
+/* Markdown rendering for the RCA viewer. Tight, readable defaults — not
+   a full GitHub clone, just enough to make .md docs feel native here. */
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  font-weight: 600;
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+  color: theme("colors.ink.900");
+}
+.markdown-body h1 {
+  font-size: 1.4em;
+  border-bottom: 1px solid theme("colors.ink.100");
+  padding-bottom: 0.2em;
+}
+.markdown-body h2 {
+  font-size: 1.2em;
+}
+.markdown-body h3 {
+  font-size: 1.05em;
+}
+.markdown-body p {
+  margin: 0.5em 0;
+}
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0.5em 0 0.5em 1.5em;
+}
+.markdown-body ul {
+  list-style: disc;
+}
+.markdown-body ol {
+  list-style: decimal;
+}
+.markdown-body li > p {
+  margin: 0.2em 0;
+}
+.markdown-body code {
+  font-family: theme("fontFamily.mono");
+  font-size: 0.92em;
+  background: theme("colors.ink.50");
+  border: 1px solid theme("colors.ink.100");
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+.markdown-body pre {
+  font-family: theme("fontFamily.mono");
+  font-size: 0.92em;
+  background: theme("colors.ink.50");
+  border: 1px solid theme("colors.ink.100");
+  border-radius: 6px;
+  padding: 0.75em 1em;
+  overflow: auto;
+  margin: 0.7em 0;
+}
+.markdown-body pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+.markdown-body blockquote {
+  border-left: 3px solid theme("colors.ink.200");
+  color: theme("colors.ink.600");
+  padding: 0.1em 0.8em;
+  margin: 0.7em 0;
+}
+.markdown-body a {
+  color: theme("colors.blue.700");
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.markdown-body table {
+  border-collapse: collapse;
+  margin: 0.7em 0;
+  font-size: 0.92em;
+}
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid theme("colors.ink.200");
+  padding: 4px 8px;
+}
+.markdown-body th {
+  background: theme("colors.ink.50");
+  font-weight: 600;
+}
+.markdown-body hr {
+  border: 0;
+  border-top: 1px solid theme("colors.ink.100");
+  margin: 1em 0;
+}
+.markdown-body input[type="checkbox"] {
+  margin-right: 6px;
+}

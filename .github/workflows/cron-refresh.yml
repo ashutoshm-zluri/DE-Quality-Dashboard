@@ -1,0 +1,43 @@
+name: Refresh dashboard data
+
+# Cron does two things every 10 min during work hours (~10am-10pm IST):
+#   1. GET /api/internal/health — keeps Render's free-tier service warm
+#   2. POST /api/internal/refresh — re-runs discover for both envs and
+#      writes failures_latest.json / stats.json / etc. to S3
+#
+# Repo secrets required:
+#   RENDER_URL              e.g. https://de-quality-portal-api.onrender.com
+#   INTERNAL_CRON_TOKEN     same value as the Render env var
+
+on:
+  schedule:
+    # Every 10 minutes between 04:00 and 16:50 UTC.
+    # That's ~09:30 to ~22:20 IST. Off overnight by design — no one is
+    # looking at the dashboard, no need to wake the backend.
+    - cron: "*/10 4-16 * * *"
+  workflow_dispatch: {}  # manual trigger from the Actions tab
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Health ping (wake Render)
+        run: |
+          curl --silent --show-error --fail --max-time 60 \
+            "$RENDER_URL/api/internal/health" \
+            || (echo "::warning::health ping failed; backend may be cold-starting"; sleep 30)
+        env:
+          RENDER_URL: ${{ secrets.RENDER_URL }}
+
+      - name: Refresh discovered data
+        run: |
+          curl --silent --show-error --max-time 240 \
+            -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Content-Type: application/json" \
+            -w "\n=== HTTP %{http_code} in %{time_total}s ===\n" \
+            "$RENDER_URL/api/internal/refresh"
+        env:
+          RENDER_URL: ${{ secrets.RENDER_URL }}
+          TOKEN: ${{ secrets.INTERNAL_CRON_TOKEN }}
