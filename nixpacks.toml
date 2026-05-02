@@ -1,0 +1,6 @@
+# Nixpacks normally auto-detects the `build` script in package.json and runs
+# it, but our build script is for the frontend (tsc + vite). The backend
+# runs from source with no build step, and the frontend deploys to Vercel,
+# so the build phase here is a no-op.
+[phases.build]
+cmds = ["echo 'no build — backend runs from source'"]
