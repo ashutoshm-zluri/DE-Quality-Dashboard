@@ -32,9 +32,11 @@ app.use((err, _req, res, _next) => {
   res.status(status).json({ error: err.message ?? "internal_error" });
 });
 
-const port = Number(process.env.API_PORT ?? 5174);
+// Render (and most managed hosts) inject PORT. Fall back to API_PORT for
+// local dev so Vite's dev proxy at 5174 keeps working.
+const port = Number(process.env.PORT ?? process.env.API_PORT ?? 5174);
 app.listen(port, () => {
   console.log(
-    `[api] listening on http://localhost:${port} (data source: ${activeDataSource})`
+    `[api] listening on port ${port} (data source: ${activeDataSource})`
   );
 });

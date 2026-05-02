@@ -7,7 +7,7 @@ recovery actions (mark-complete + retrigger) with snapshots and audit trail.
 ## Architecture
 
 ```
-       Vercel (React)  ──/api/* rewrite──▶  Render (Express)  ──▶  Mongo Atlas
+       Vercel (React)  ──/api/* rewrite──▶  Railway (Express)  ──▶  Mongo Atlas
                                               │
                                               └─▶  S3 (de-quality-dashboard)
                                                      - <env>/ui_data/*  (refreshed by cron)
@@ -17,7 +17,7 @@ recovery actions (mark-complete + retrigger) with snapshots and audit trail.
 
        GitHub Actions cron (every 10 min, 09:30–22:20 IST)
                   │
-                  ├──GET   /api/internal/health    (keeps Render warm)
+                  ├──GET   /api/internal/health    (reachability probe)
                   └──POST  /api/internal/refresh   (re-runs discover)
 ```
 
@@ -77,8 +77,8 @@ server/                    Express service
     refreshStatuses.js         in-flight status refresh
 
 .github/workflows/cron-refresh.yml   GitHub Actions cron
-vercel.json                          Vercel rewrites /api/* → Render
-render.yaml                          Render blueprint
+vercel.json                          Vercel rewrites /api/* → Railway
+railway.toml                         Railway deploy config
 ```
 
 ## Deploy
@@ -116,5 +116,5 @@ New Google sign-ins default to `viewer`. Admins promote in Settings → Team mem
 ## Prod write guard
 
 Recovery actions in prod return `503 prod_writes_not_configured` until
-`PROD_WRITES_ENABLED=true` on Render. Flip when platform grants mongo prod
-write credentials.
+`PROD_WRITES_ENABLED=true` on the backend. Flip when platform grants mongo
+prod write credentials.
